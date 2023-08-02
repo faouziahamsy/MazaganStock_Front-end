@@ -32,8 +32,7 @@
                         </th>
                        
                         <th pSortableColumn="nom">nom<p-sortIcon field="nom"></p-sortIcon></th>
-                        <th pSortableColumn="nom">nom<p-sortIcon field="nom"></p-sortIcon></th>
-                        <th pSortableColumn="nom">nom<p-sortIcon field="nom"></p-sortIcon></th>
+                       
                         <th></th>
                     </tr>
                 </ng-template>
@@ -47,14 +46,7 @@
                             <span class="p-column-title">nom</span>
                             {{category.nom}}
                         </td>   
-                        <td style="width:14%; min-width:8rem;">
-                            <span class="p-column-title">nom</span>
-                            {{category.nom}}
-                        </td>   
-                        <td style="width:14%; min-width:8rem;">
-                            <span class="p-column-title">nom</span>
-                            {{category.nom}}
-                        </td>                                 
+                                                      
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>

@@ -167,7 +167,7 @@ export class CategoryComponent implements OnInit {
           } else {
               this.product.id = this.createId();
               this.product.code = this.createId();
-              this.product.image = 'product-placeholder.svg';
+             // this.product.image = 'product-placeholder.svg';
               // @ts-ignore
               this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
               this.products.push(this.product);

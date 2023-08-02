@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CrudComponent implements OnInit {
     equipmentForm: FormGroup;
+    selectedImage: File;
 
     productDialog: boolean = false;
 
@@ -41,7 +42,8 @@ export class CrudComponent implements OnInit {
         this.createForm();
         this.loadEquipments();
     }
-    testCreateEquipment() {
+
+  /*  testCreateEquipment() {
         // Create a sample equipment object with static data
         const staticEquipmentData: Product = {
           id: null, // The backend should generate a unique ID
@@ -60,7 +62,7 @@ export class CrudComponent implements OnInit {
             console.error('Error adding equipment:', error);
           }
         );
-    }
+    }*/
     createForm() {
         this.equipmentForm = this.fb.group({
             matricule: ['', Validators.required],
@@ -78,18 +80,41 @@ export class CrudComponent implements OnInit {
             }
         );
     }
+  
+    onImageSelected(event: any) {
+        this.selectedImage = event.target.files[0];
+      }
+    
 
-    onSubmit() {
+
+      onSubmit() {
         console.log('onSubmit() method called!');
         console.log(this.equipmentForm.value);
-        
+      
         if (this.equipmentForm.valid) {
           console.log('Form is valid. Submitting data...');
-          const equipmentData = this.equipmentForm.value;
+      
+          const equipmentData: FormData = new FormData();
+          equipmentData.append('matricule', this.equipmentForm.get('matricule').value);
+          equipmentData.append('quantity', this.equipmentForm.get('quantity').value);
+          equipmentData.append('photoEquipement', this.selectedImage);
+      
           console.log('Data to be sent:', equipmentData);
-          
-          // Rest of the code for API call and handling the response...
-          
+      
+          // Call the createEquipment method with formData
+          this.productService.createEquipment(equipmentData).subscribe(
+            (response) => {
+              console.log('Equipment added successfully:', response);
+              // Reset the form after successful submission
+              this.equipmentForm.reset();
+              this.selectedImage = null; // Clear the selected image
+              // Refresh the list of equipments after adding a new one
+              this.loadEquipments();
+            },
+            (error) => {
+              console.error('Error adding equipment:', error);
+            }
+          );
         } else {
           console.log('Form is invalid. Cannot submit data.');
           // Print form control errors
@@ -99,25 +124,11 @@ export class CrudComponent implements OnInit {
               console.log(`Invalid control: ${controlKey}, Errors: `, control.errors);
             }
           }
-        } 
-        //console.log('onSubmit() method called!');
-        //console.log(this.equipmentForm.value);
-            if (this.equipmentForm.valid) {
-            const equipmentData = this.equipmentForm.value;
-            this.productService.createEquipment(equipmentData).subscribe(
-                (response) => {
-                    console.log('Equipment added successfully:', response);
-                    // Reset the form after successful submission
-                    this.equipmentForm.reset();
-                    // Refresh the list of equipments after adding a new one
-                    this.loadEquipments();
-                },
-                (error) => {
-                    console.error('Error adding equipment:', error);
-                }
-            );
         }
-    }
+      }
+      
+    
+
     openNew() {
         this.product = {};
         this.submitted = false;
@@ -165,7 +176,7 @@ export class CrudComponent implements OnInit {
             } else {
                 this.product.id = this.createId();
                 this.product.code = this.createId();
-                this.product.image = 'product-placeholder.svg';
+              //  this.product.image = 'product-placeholder.svg';
                 // @ts-ignore
                 this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
                 this.products.push(this.product);

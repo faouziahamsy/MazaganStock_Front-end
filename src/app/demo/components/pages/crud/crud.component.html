@@ -83,7 +83,7 @@
         </div>
 
         <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Equipment Details" [modal]="true" class="p-fluid">
-            <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="equipmentForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
                 <div class="formgrid grid"> 
                     <div class="field col">
                   <label for="matricule">Matricule</label>
@@ -93,16 +93,21 @@
                   </div>
                 </div>
                 </div>
+                <form  method="post" enctype="multipart/form-data">
+                    <!-- Form fields for matricule, category, quantity, dateEntree, dateSortie, etat, and file input -->
+                    <input type="file" name="photoEquipement" />
+                    <!-- Other form fields -->
+                    
+                  </form>
+                                
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
                     <p-inputNumber mode="decimal" [showButtons]="true" [min]="0" [max]="100" type="number" id="quantity" formControlName="quantity" class="form-control" min="0" ></p-inputNumber>
                     <div *ngIf="equipmentForm.get('quantity').invalid && (equipmentForm.get('quantity').dirty || equipmentForm.get('quantity').touched)">
                       <small class="text-danger">Quantity must be greater than or equal to 0.</small>
                     </div>
-                  </div>
-                
+                  </div>                
               </form>
-              
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>

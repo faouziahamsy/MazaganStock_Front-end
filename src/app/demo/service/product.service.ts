@@ -4,17 +4,18 @@ import { Product } from '../api/product';
 import { Observable } from 'rxjs';
 
 
+
 @Injectable()
 export class ProductService {
     private apiUrl = 'http://localhost:8084/equipements';
     constructor(private http: HttpClient) { }
-    createEquipment(equipmentData: Product): Observable<any> {
-      return this.http.post(this.apiUrl, equipmentData);
-    }
-   
+    createEquipment(formData: FormData): Observable<any> {
+        return this.http.post<any>(this.apiUrl, formData);
+      }
+
     getEquipments(): Observable<Product[]> {
         return this.http.get<Product[]>(this.apiUrl);
-      }
+    }
 
     getProductsSmall() {
         return this.http.get<any>('assets/demo/data/products-small.json')

@@ -14,6 +14,6 @@ export interface Product {
     quantity?: number;
     inventoryStatus?: InventoryStatus;
     category?: string;
-    image?: string;
+    image?: File;
    // rating?: number;
 }
