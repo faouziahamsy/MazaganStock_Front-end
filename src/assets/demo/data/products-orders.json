@@ -14,7 +14,7 @@
             "orders": [
                 {
                     "id": "1000-0",
-                    "productCode": "f230fh0g3",
+                    "productcode": "f230fh0g3",
                     "date": "2020-09-13",
                     "amount": 65,
                     "quantity": 1,
@@ -23,7 +23,7 @@
                 },
                 {
                     "id": "1001-1",
-                    "productCode": "f230fh0g3",
+                    "productcode": "f230fh0g3",
                     "date": "2020-05-14",
                     "amount": 130,
                     "quantity": 2,
@@ -32,7 +32,7 @@
                 },
                 {
                     "id": "1002-2",
-                    "productCode": "f230fh0g3",
+                    "productcode": "f230fh0g3",
                     "date": "2019-01-04",
                     "amount": 65,
                     "quantity": 1,
@@ -41,7 +41,7 @@
                 },
                 {
                     "id": "1003-3",
-                    "productCode": "f230fh0g3",
+                    "productcode": "f230fh0g3",
                     "date": "2020-09-13",
                     "amount": 195,
                     "quantity": 3,
@@ -64,7 +64,7 @@
             "orders": [
                 {
                     "id": "1001-0",
-                    "productCode": "nvklal433",
+                    "productcode": "nvklal433",
                     "date": "2020-05-14",
                     "amount": 72,
                     "quantity": 1,
@@ -73,7 +73,7 @@
                 },
                 {
                     "id": "1001-1",
-                    "productCode": "nvklal433",
+                    "productcode": "nvklal433",
                     "date": "2020-02-28",
                     "amount": 144,
                     "quantity": 2,
@@ -96,7 +96,7 @@
             "orders": [
                 {
                     "id": "1002-0",
-                    "productCode": "zz21cz3c1",
+                    "productcode": "zz21cz3c1",
                     "date": "2020-07-05",
                     "amount": 79,
                     "quantity": 1,
@@ -105,7 +105,7 @@
                 },
                 {
                     "id": "1002-1",
-                    "productCode": "zz21cz3c1",
+                    "productcode": "zz21cz3c1",
                     "date": "2020-02-06",
                     "amount": 79,
                     "quantity": 1,
@@ -141,7 +141,7 @@
             "orders": [
                 {
                     "id": "1004-0",
-                    "productCode": "h456wer53",
+                    "productcode": "h456wer53",
                     "date": "2020-09-05",
                     "amount": 60,
                     "quantity": 4,
@@ -150,7 +150,7 @@
                 },
                 {
                     "id": "1004-5",
-                    "productCode": "h456wer53",
+                    "productcode": "h456wer53",
                     "date": "2019-04-16",
                     "amount": 2,
                     "quantity": 30,
@@ -173,7 +173,7 @@
             "orders": [
                 {
                     "id": "1005-0",
-                    "productCode": "av2231fwg",
+                    "productcode": "av2231fwg",
                     "date": "2020-01-25",
                     "amount": 120,
                     "quantity": 1,
@@ -182,7 +182,7 @@
                 },
                 {
                     "id": "1005-1",
-                    "productCode": "av2231fwg",
+                    "productcode": "av2231fwg",
                     "date": "2019-03-12",
                     "amount": 240,
                     "quantity": 2,
@@ -191,7 +191,7 @@
                 },
                 {
                     "id": "1005-2",
-                    "productCode": "av2231fwg",
+                    "productcode": "av2231fwg",
                     "date": "2019-05-05",
                     "amount": 120,
                     "quantity": 1,
@@ -214,7 +214,7 @@
             "orders": [
                 {
                     "id": "1006-0",
-                    "productCode": "bib36pfvm",
+                    "productcode": "bib36pfvm",
                     "date": "2020-02-24",
                     "amount": 32,
                     "quantity": 1,
@@ -223,7 +223,7 @@
                 },
                 {
                     "id": "1006-1",
-                    "productCode": "bib36pfvm",
+                    "productcode": "bib36pfvm",
                     "date": "2020-01-14",
                     "amount": 64,
                     "quantity": 2,
@@ -246,7 +246,7 @@
             "orders": [
                 {
                     "id": "1007-0",
-                    "productCode": "mbvjkgip5",
+                    "productcode": "mbvjkgip5",
                     "date": "2020-06-19",
                     "amount": 34,
                     "quantity": 1,
@@ -269,7 +269,7 @@
             "orders": [
                 {
                     "id": "1008-0",
-                    "productCode": "vbb124btr",
+                    "productcode": "vbb124btr",
                     "date": "2020-01-05",
                     "amount": 99,
                     "quantity": 1,
@@ -278,7 +278,7 @@
                 },
                 {
                     "id": "1008-1",
-                    "productCode": "vbb124btr",
+                    "productcode": "vbb124btr",
                     "date": "2020-01-19",
                     "amount": 198,
                     "quantity": 2,
@@ -301,7 +301,7 @@
             "orders": [
                 {
                     "id": "1009-0",
-                    "productCode": "cm230f032",
+                    "productcode": "cm230f032",
                     "date": "2020-06-24",
                     "amount": 299,
                     "quantity": 1,
@@ -310,7 +310,7 @@
                 },
                 {
                     "id": "1009-1",
-                    "productCode": "cm230f032",
+                    "productcode": "cm230f032",
                     "date": "2020-05-11",
                     "amount": 299,
                     "quantity": 1,
@@ -319,7 +319,7 @@
                 },
                 {
                     "id": "1009-2",
-                    "productCode": "cm230f032",
+                    "productcode": "cm230f032",
                     "date": "2019-02-07",
                     "amount": 299,
                     "quantity": 1,
@@ -328,7 +328,7 @@
                 },
                 {
                     "id": "1009-3",
-                    "productCode": "cm230f032",
+                    "productcode": "cm230f032",
                     "date": "2020-04-26",
                     "amount": 299,
                     "quantity": 1,
@@ -351,7 +351,7 @@
             "orders": [
                 {
                     "id": "1010-0",
-                    "productCode": "plb34234v",
+                    "productcode": "plb34234v",
                     "date": "2020-02-04",
                     "amount": 24,
                     "quantity": 1,
@@ -360,7 +360,7 @@
                 },
                 {
                     "id": "1010-1",
-                    "productCode": "plb34234v",
+                    "productcode": "plb34234v",
                     "date": "2020-05-05",
                     "amount": 48,
                     "quantity": 2,
@@ -383,7 +383,7 @@
             "orders": [
                 {
                     "id": "1011-0",
-                    "productCode": "4920nnc2d",
+                    "productcode": "4920nnc2d",
                     "date": "2020-06-01",
                     "amount": 89,
                     "quantity": 1,
@@ -406,7 +406,7 @@
             "orders": [
                 {
                     "id": "1012-0",
-                    "productCode": "250vm23cc",
+                    "productcode": "250vm23cc",
                     "date": "2020-02-05",
                     "amount": 49,
                     "quantity": 1,
@@ -415,7 +415,7 @@
                 },
                 {
                     "id": "1012-1",
-                    "productCode": "250vm23cc",
+                    "productcode": "250vm23cc",
                     "date": "2020-02-15",
                     "amount": 49,
                     "quantity": 1,
@@ -438,7 +438,7 @@
             "orders": [
                 {
                     "id": "1013-0",
-                    "productCode": "fldsmn31b",
+                    "productcode": "fldsmn31b",
                     "date": "2020-04-01",
                     "amount": 48,
                     "quantity": 1,
@@ -461,7 +461,7 @@
             "orders": [
                 {
                     "id": "1014-0",
-                    "productCode": "waas1x2as",
+                    "productcode": "waas1x2as",
                     "date": "2020-05-15",
                     "amount": 175,
                     "quantity": 1,
@@ -470,7 +470,7 @@
                 },
                 {
                     "id": "1014-1",
-                    "productCode": "waas1x2as",
+                    "productcode": "waas1x2as",
                     "date": "2020-01-02",
                     "amount": 175,
                     "quantity": 1,
@@ -493,7 +493,7 @@
             "orders": [
                 {
                     "id": "1015-0",
-                    "productCode": "vb34btbg5",
+                    "productcode": "vb34btbg5",
                     "date": "2020-07-02",
                     "amount": 98,
                     "quantity": 2,
@@ -529,7 +529,7 @@
             "orders": [
                 {
                     "id": "1017-0",
-                    "productCode": "v435nn85n",
+                    "productcode": "v435nn85n",
                     "date": "2020-07-12",
                     "amount": 85,
                     "quantity": 1,
@@ -552,7 +552,7 @@
             "orders": [
                 {
                     "id": "1018-0",
-                    "productCode": "09zx9c0zc",
+                    "productcode": "09zx9c0zc",
                     "date": "2020-07-01",
                     "amount": 56,
                     "quantity": 1,
@@ -561,7 +561,7 @@
                 },
                 {
                     "id": "1018-1",
-                    "productCode": "09zx9c0zc",
+                    "productcode": "09zx9c0zc",
                     "date": "2020-05-02",
                     "amount": 56,
                     "quantity": 1,
@@ -597,7 +597,7 @@
             "orders": [
                 {
                     "id": "1020-0",
-                    "productCode": "r23fwf2w3",
+                    "productcode": "r23fwf2w3",
                     "date": "2020-05-29",
                     "amount": 110,
                     "quantity": 1,
@@ -606,7 +606,7 @@
                 },
                 {
                     "id": "1020-1",
-                    "productCode": "r23fwf2w3",
+                    "productcode": "r23fwf2w3",
                     "date": "2020-02-11",
                     "amount": 220,
                     "quantity": 2,
@@ -629,7 +629,7 @@
             "orders": [
                 {
                     "id": "1021-0",
-                    "productCode": "pxpzczo23",
+                    "productcode": "pxpzczo23",
                     "date": "2020-02-02",
                     "amount": 79,
                     "quantity": 1,
@@ -652,7 +652,7 @@
             "orders": [
                 {
                     "id": "1022-0",
-                    "productCode": "2c42cb5cb",
+                    "productcode": "2c42cb5cb",
                     "date": "2020-06-29",
                     "amount": 45,
                     "quantity": 1,
@@ -661,7 +661,7 @@
                 },
                 {
                     "id": "1022-1",
-                    "productCode": "2c42cb5cb",
+                    "productcode": "2c42cb5cb",
                     "date": "2020-02-11",
                     "amount": 135,
                     "quantity": 3,
@@ -684,7 +684,7 @@
             "orders": [
                 {
                     "id": "1023-0",
-                    "productCode": "5k43kkk23",
+                    "productcode": "5k43kkk23",
                     "date": "2020-04-15",
                     "amount": 49,
                     "quantity": 1,
@@ -720,7 +720,7 @@
             "orders": [
                 {
                     "id": "1025-0",
-                    "productCode": "nbm5mv45n",
+                    "productcode": "nbm5mv45n",
                     "date": "2020-02-19",
                     "amount": 78,
                     "quantity": 1,
@@ -729,7 +729,7 @@
                 },
                 {
                     "id": "1025-1",
-                    "productCode": "nbm5mv45n",
+                    "productcode": "nbm5mv45n",
                     "date": "2020-05-21",
                     "amount": 78,
                     "quantity": 1,
@@ -752,7 +752,7 @@
             "orders": [
                 {
                     "id": "1026-0",
-                    "productCode": "zx23zc42c",
+                    "productcode": "zx23zc42c",
                     "date": "2020-04-24",
                     "amount": 98,
                     "quantity": 2,
@@ -775,7 +775,7 @@
             "orders": [
                 {
                     "id": "1027-0",
-                    "productCode": "acvx872gc",
+                    "productcode": "acvx872gc",
                     "date": "2020-01-29",
                     "amount": 89,
                     "quantity": 1,
@@ -784,7 +784,7 @@
                 },
                 {
                     "id": "1027-1",
-                    "productCode": "acvx872gc",
+                    "productcode": "acvx872gc",
                     "date": "2020-06-11",
                     "amount": 89,
                     "quantity": 1,
@@ -820,7 +820,7 @@
             "orders": [
                 {
                     "id": "1026-0",
-                    "productCode": "gwuby345v",
+                    "productcode": "gwuby345v",
                     "date": "2020-02-14",
                     "amount": 4,
                     "quantity": 80,

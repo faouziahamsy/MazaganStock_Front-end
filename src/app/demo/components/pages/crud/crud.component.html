@@ -15,7 +15,6 @@
                     <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
                 </ng-template>
             </p-toolbar>
-
             <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -31,12 +30,12 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
-                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
                         <th>Image</th>
-                        <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
+                        <th pSortableColumn="matricule">Matricule<p-sortIcon field="matricule"></p-sortIcon></th>
                         <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
-                        <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
+                        <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
+                        <th pSortableColumn="dateEntree">Date d'entrée <p-sortIcon field="dateEntree"></p-sortIcon></th>
+                        <th pSortableColumn="dateSortie">Date de sortie <p-sortIcon field="dateSortie"></p-sortIcon></th>
                         <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
                         <th></th>
                     </tr>
@@ -46,26 +45,28 @@
                         <td>
                             <p-tableCheckbox [value]="product"></p-tableCheckbox>
                         </td>
-                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Code</span>
-                            {{product.code || product.id}}
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Name</span>
-                            {{product.name}}
-                        </td>
                         <td style="width:14%; min-width:10rem;"><span class="p-column-title">Image</span>
-                            <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" />
+                            <img [src]="'assets/demo/images/equipement/' + product.image" [alt]="product.name" width="100" class="shadow-4" />
                         </td>
                         <td style="width:14%; min-width:8rem;">
-                            <span class="p-column-title">Price</span>
-                            {{product.price | currency:'USD'}}
+                            <span class="p-column-title">Matricule</span>
+                            {{product.matricule}}
                         </td>
                         <td style="width:14%; min-width:10rem;">
                             <span class="p-column-title">Category</span>
                             {{product.category}}
+                        </td>        
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Quantity</span>
+                            {{product.quantity}}
                         </td>
-                        <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Reviews</span>
-                            <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">date d'entrée'</span>
+                            {{product.dateEntree}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">date de sortie</span>
+                            {{product.dateSortie}}
                         </td>
                         <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Status</span>
                             <span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span>
@@ -81,67 +82,34 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" class="p-fluid">
-            <ng-template pTemplate="content">
-                <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image">
-                <div class="field">
-                    <label for="name">Name</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
-                </div>
-                <div class="field">
-                    <label for="description">Description</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
-                </div>
-                <div class="field">
-                    <label for="status">Inventory Status</label>
-                    <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" optionValue="label" [options]="statuses" placeholder="Select">
-                        <ng-template pTemplate="selectedItem">
-                            <span *ngIf="product && product.inventoryStatus" [class]="'product-badge status-' + product.inventoryStatus.toString().toLowerCase()">{{product.inventoryStatus}}</span>
-                        </ng-template>
-                        <ng-template let-option pTemplate="item">
-                            <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-
-                <div class="field">
-                    <label class="mb-3">Category</label>
-                    <div class="formgrid grid">
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="product.category"></p-radioButton>
-                            <label for="category1">Accessories</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="product.category"></p-radioButton>
-                            <label for="category2">Clothing</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="product.category"></p-radioButton>
-                            <label for="category3">Electronics</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="product.category"></p-radioButton>
-                            <label for="category4">Fitness</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="formgrid grid">
+        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Equipment Details" [modal]="true" class="p-fluid">
+            <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
+                <div class="formgrid grid"> 
                     <div class="field col">
-                        <label for="price">Price</label>
-                        <p-inputNumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
-                    </div>
-                    <div class="field col">
-                        <label for="quantity">Quantity</label>
-                        <p-inputNumber id="quantity" [(ngModel)]="product.quantity"></p-inputNumber>
-                    </div>
+                  <label for="matricule">Matricule</label>
+                  <input type="text" pInputText id="matricule"  formControlName="matricule" class="form-control" required>
+                  <div *ngIf="equipmentForm.get('matricule').invalid && (equipmentForm.get('matricule').dirty || equipmentForm.get('matricule').touched)">
+                    <small class="text-danger">Matricule is required.</small>
+                  </div>
                 </div>
-            </ng-template>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <p-inputNumber mode="decimal" [showButtons]="true" [min]="0" [max]="100" type="number" id="quantity" formControlName="quantity" class="form-control" min="0" ></p-inputNumber>
+                    <div *ngIf="equipmentForm.get('quantity').invalid && (equipmentForm.get('quantity').dirty || equipmentForm.get('quantity').touched)">
+                      <small class="text-danger">Quantity must be greater than or equal to 0.</small>
+                    </div>
+                  </div>
+                
+              </form>
+              
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+                <!-- Add a button or any other element to trigger the testCreateEquipment function -->
+                <button (click)="testCreateEquipment()">Test Create Equipment</button>
+                <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button>
+                
             </ng-template>
         </p-dialog>
 
@@ -159,7 +127,7 @@
         <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Are you sure you want to delete selected products?</span>
+                <span>Are you sure you want to delete selected equipements?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
@@ -168,3 +136,4 @@
         </p-dialog>
     </div>
 </div>
+

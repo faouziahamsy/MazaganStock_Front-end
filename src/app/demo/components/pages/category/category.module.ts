@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CrudRoutingModule } from './crud-routing.module';
-import { CrudComponent } from './crud.component';
+import { CategoryRoutingModule } from './category-routing.module';
+import { CategoryComponent } from './category.component';
 import { TableModule } from 'primeng/table';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
@@ -18,11 +18,12 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
+import { CategoryService } from 'src/app/demo/service/category.service';
 
 @NgModule({
     imports: [
         CommonModule,
-        CrudRoutingModule,
+        CategoryRoutingModule,
         TableModule,
         ReactiveFormsModule,
         FileUploadModule,
@@ -39,7 +40,9 @@ import { CalendarModule } from 'primeng/calendar';
         InputNumberModule,
         DialogModule,
         CalendarModule,
+       
     ],
-    declarations: [CrudComponent]
+    providers: [CategoryService],
+    declarations: [CategoryComponent]
 })
-export class CrudModule { }
+export class CategoryModule { }

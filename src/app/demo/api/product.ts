@@ -5,12 +5,15 @@ interface InventoryStatus {
 export interface Product {
     id?: string;
     code?: string;
+    dateEntree?: Date;
+    dateSortie?: Date;
     name?: string;
     description?: string;
-    price?: number;
+    matricule?: string;
+    //price?: number;
     quantity?: number;
     inventoryStatus?: InventoryStatus;
     category?: string;
     image?: string;
-    rating?: number;
+   // rating?: number;
 }
