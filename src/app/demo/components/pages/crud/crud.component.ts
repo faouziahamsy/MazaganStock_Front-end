@@ -67,7 +67,7 @@ export class CrudComponent implements OnInit {
         this.equipmentForm = this.fb.group({
             matricule: ['', Validators.required],
             quantity: [, Validators.min(0)],
-            image: [''],
+            image: ['',Validators.required],
         });
     }
     loadEquipments() {
@@ -83,13 +83,19 @@ export class CrudComponent implements OnInit {
   
     onImageSelected(event: any) {
         this.selectedImage = event.target.files[0];
+        console.log('====================================');
+        console.log(this.selectedImage);
+        this.equipmentForm.patchValue({
+          image: this.selectedImage
+        })
+        console.log('====================================');
       }
     
 
 
       onSubmit() {
         console.log('onSubmit() method called!');
-        console.log(this.equipmentForm.value);
+        
       
         if (this.equipmentForm.valid) {
           console.log('Form is valid. Submitting data...');
@@ -98,8 +104,8 @@ export class CrudComponent implements OnInit {
           equipmentData.append('matricule', this.equipmentForm.get('matricule').value);
           equipmentData.append('quantity', this.equipmentForm.get('quantity').value);
           equipmentData.append('photoEquipement', this.selectedImage);
-      
-          console.log('Data to be sent:', equipmentData);
+          
+          console.log('Data to be sent:', equipmentData.get('photoEquipement'));
       
           // Call the createEquipment method with formData
           this.productService.createEquipment(equipmentData).subscribe(

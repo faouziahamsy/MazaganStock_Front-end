@@ -17,53 +17,37 @@ export class CategoryComponent implements OnInit {
   equipmentForm: FormGroup;
   categoryForm: FormGroup;
   categoryDialog: boolean = false;
-
+  valueTest: String ;
   deleteCategoryDialog: boolean = false;
-
-  deleteProductsDialog: boolean = false;
-
-  products: Product[] = [];
-
-  categories: Category[] = [];
-
-  product: Product = {};
-
+  deleteCategoriesDialog: boolean = false;
+  categories: Category[] = []; 
   category: Category={};
-
-  selectedProducts: Product[] = [];
+  selectedCategories: Category[] = [];
 
   submitted: boolean = false;
+  isEditMode: boolean = false;
 
   cols: any[] = [];
 
   statuses: any[] = [];
-
+  formData: any = {};
+ 
   rowsPerPageOptions = [5, 10, 20];
 
   constructor(private categoryService: CategoryService,private productService: ProductService, private messageService: MessageService, private fb: FormBuilder) { }
  
-
   ngOnInit() {
       this.createForm();
       this.loadCategories();
   }
-  testCreateCategory() {
-      // Create a sample equipment object with static data
-      const staticCategoryData: Category = {
-        id: null, // The backend should generate a unique ID
-       
-        nom: 'Cat 1',
-        
-      };
-      this.categoryService.createCategory(staticCategoryData).subscribe(
-        (response) => {
-          console.log('Category added successfully:', response);
-        },
-        (error) => {
-          console.error('Error adding category:', error);
-        }
-      );
+
+ 
+ 
+  showDeleteDialog(category: any) {
+    this.category = category;
+    this.deleteCategoryDialog = true;
   }
+
   createForm() {
       this.categoryForm = this.fb.group({
           nom: ['', Validators.required],
@@ -79,116 +63,142 @@ export class CategoryComponent implements OnInit {
           }
       );
   }
-
+ 
+// save category
+//   onSubmit() {
+//     const category = {
+//         "nom":this.valueTest.toString(), 
+//     }
+//     this.categoryService.createCategory(category).subscribe(
+//         (response) => {
+//           console.log('Category added successfully:', response);
+//         },
+//         (error) => {
+//           console.error('Error adding category:', error);
+//         }
+//       );
+//   }
   onSubmit() {
-      console.log('onSubmit() method called!');
-      console.log(this.categoryForm.value);
-      
-      if (this.categoryForm.valid) {
-        console.log('Form is valid. Submitting data...');
-        const categoryData = this.categoryForm.value;
-        console.log('Data to be sent:', categoryData);
-        
-        // Rest of the code for API call and handling the response...
-        
-      } else {
-        console.log('Form is invalid. Cannot submit data.');
-        // Print form control errors
-        for (const controlKey in this.categoryForm.controls) {
-          const control = this.categoryForm.controls[controlKey];
-          if (control.invalid) {
-            console.log(`Invalid control: ${controlKey}, Errors: `, control.errors);
-          }
-        }
-      } 
-      //console.log('onSubmit() method called!');
-      //console.log(this.categoryForm.value);
-          if (this.categoryForm.valid) {
-          const categoryData = this.categoryForm.value;
-          this.categoryService.createCategory(categoryData).subscribe(
-              (response) => {
-                  console.log('Category added successfully:', response);
-                  // Reset the form after successful submission
-                  this.categoryForm.reset();
-                  // Refresh the list of equipments after adding a new one
-                  this.loadCategories();
-              },
-              (error) => {
-                  console.error('Error adding category:', error);
-              }
-          );
+    const category = {
+      "nom": this.valueTest.toString(),
+    };
+  
+    this.categoryService.createCategory(category).subscribe(
+      (response) => {
+        console.log('Category added successfully:', response);
+        this.loadCategories(); // Reload the categories after adding a new one
+        this.hideDialog();
+      },
+      (error) => {
+        console.error('Error adding category:', error);
       }
+    );
   }
+  onUpdateCategory() {
+    const category: {
+        id: number;
+        nom: string;
+    } = {
+        id: this.category.id, // Convert the ID to a number
+        nom: this.valueTest.toString(),
+    };
+    console.log(this.category.id,this.valueTest);
+  
+    this.categoryService.updateCategory(category.id, category).subscribe(
+      (response) => {
+        console.log('Category updated successfully:', response);
+        this.loadCategories(); // Reload the categories after updating
+        this.hideDialog();
+      },
+      (error) => {
+        console.error('Error updating category:', error);
+      }
+    );
+  }
+  
+
   openNew() {
-      this.product = {};
-      this.category={};
-      this.submitted = false;
-      this.categoryDialog = true;
+    this.category = {};
+    this.isEditMode = false;
+    this.submitted = false;
+    this.categoryDialog = true;
   }
-  deleteSelectedProducts() {
-      this.deleteProductsDialog = true;
+ 
+  deleteSelectedCategories() {
+      this.deleteCategoriesDialog = true;
   }
-  editProduct(product: Product) {
-      this.product = { ...product };
-      this.categoryDialog = true;
+  editCategory(category: Category) {
+    this.category = { ...category };
+    this.isEditMode = true;
+    this.categoryDialog = true;
   }
 
-  deleteProduct(product: Product) {
+  deleteCategory(category: Category) {
       this.deleteCategoryDialog = true;
-      this.product = { ...product };
+      this.category = { ...category };
   }
   confirmDeleteSelected() {
-      this.deleteProductsDialog = false;
-      this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-      this.selectedProducts = [];
+      this.deleteCategoriesDialog = false;
+      this.categories = this.categories.filter(val => !this.selectedCategories.includes(val));
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Categories Deleted', life: 3000 });
+      this.selectedCategories = [];
   }
   confirmDelete() {
-      this.deleteCategoryDialog = false;
-      this.products = this.products.filter(val => val.id !== this.product.id);
-      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-      this.product = {};
+    if (this.category.id) {
+      const categoryId = this.category.id;
+      this.categoryService.deleteCategory(categoryId).subscribe(
+        () => {
+          console.log('Category deleted successfully:', this.category);
+          // Remove the deleted category from the list
+          this.categories = this.categories.filter((val) => val.id !== this.category.id);
+          this.deleteCategoryDialog = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Category Deleted',
+            life: 3000
+          });
+        },
+        (error) => {
+          console.error('Error deleting category:', error);
+        }
+      );
+    } else {
+      console.error('Category ID is null or undefined');
+    }
   }
 
+  updateCategory(category: Category) {
+    const categoryId = this.category.id;
+    this.categoryService.updateCategory(categoryId, category).subscribe(
+        (updatedCategory: Category) => {
+            // Update the category in the list with the updated values
+            const index = this.categories.findIndex(c => c.id === updatedCategory.id);
+            if (index !== -1) {
+                this.categories[index] = updatedCategory;
+            }
+            // Show a success message or perform any other necessary actions
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category updated successfully', life: 3000 });
+        },
+        (error) => {
+            console.error('Error updating category:', error);
+            // Show an error message or perform error handling
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update category', life: 3000 });
+        }
+    );
+}
   hideDialog() {
       this.categoryDialog = false;
       this.submitted = false;
   }
-
-  saveProduct() {
-      this.submitted = true;
-
-      if (this.product.name?.trim()) {
-          if (this.product.id) {
-              // @ts-ignore
-              this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-              this.products[this.findIndexById(this.product.id)] = this.product;
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-          } else {
-              this.product.id = this.createId();
-              this.product.code = this.createId();
-             // this.product.image = 'product-placeholder.svg';
-              // @ts-ignore
-              this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
-              this.products.push(this.product);
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
-          }
-
-          this.products = [...this.products];
-          this.categoryDialog = false;
-          this.product = {};
-      }
-  }
-
-  findIndexById(id: string): number {
+  findIndexById(id: number): number {
       let index = -1;
-      for (let i = 0; i < this.products.length; i++) {
-          if (this.products[i].id === id) {
+      for (let i = 0; i < this.categories.length; i++) {
+          if (this.categories[i].id === id) {
               index = i;
               break;
           }
       }
-
       return index;
   }
 

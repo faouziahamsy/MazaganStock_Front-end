@@ -3,6 +3,6 @@ interface InventoryStatus {
     value: string;
 }
 export interface Category {
-    id?: string;
+    id?: number;
     nom?: string;
 }

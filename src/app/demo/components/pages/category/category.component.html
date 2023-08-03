@@ -15,7 +15,7 @@
                     <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
                 </ng-template>
             </p-toolbar>
-            <p-table #dt [value]="categories" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['nom','country.nom','representative.nom','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="categories" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['nom','country.nom','representative.nom','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedCategories" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Manage Categories</h5>
@@ -25,6 +25,7 @@
                         </span>
                     </div>
                 </ng-template>
+
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 3rem">
@@ -32,10 +33,11 @@
                         </th>
                        
                         <th pSortableColumn="nom">nom<p-sortIcon field="nom"></p-sortIcon></th>
-                       
+                        <th pSortableColumn="action">action<p-sortIcon field="action"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>
+
                 <ng-template pTemplate="body" let-category>
                     <tr>
                         <td>
@@ -43,46 +45,37 @@
                         </td>
                        
                         <td style="width:14%; min-width:8rem;">
-                            <span class="p-column-title">nom</span>
+                            <span class="p-column-title"name ="name">nom</span>
                             {{category.nom}}
-                        </td>   
-                                                      
+                        </td>                                  
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCategory(category)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCategory(category)"></button>
                             </div>
                         </td>
                     </tr>
                 </ng-template>
+
             </p-table>
         </div>
-
+       
         <p-dialog [(visible)]="categoryDialog" [style]="{width: '450px'}" header="Category Details" [modal]="true" class="p-fluid">
-            <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-                <div class="formgrid grid"> 
-                    <div class="field col">
-                  <label for="nom">nom</label>
-                  <input type="text" pInputText id="nom"  formControlnom="nom" class="form-control" required>
-                  <div *ngIf="categoryForm.get('nom').invalid && (categoryForm.get('nom').dirty || categoryForm.get('nom').touched)">
-                    <small class="text-danger">Matricule is required.</small>
-                  </div>
-                </div>
-                </div> 
-              </form>
+            <h5 for="nom">Category name</h5>
+            <input placeholder="Category Name" type="text" pInputText [(ngModel)]="valueTest" />             
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <!-- Add a button or any other element to trigger the testCreateEquipment function -->
-                <button (click)="testCreateCategory()">Test Create category</button>
-                
-                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button>
+              <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+              <button *ngIf="!isEditMode" type="submit" pButton pRipple label="Add Category" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button>
+              <button *ngIf="isEditMode" type="submit" pButton pRipple label="Update Category" icon="pi pi-check" class="p-button-text" (click)="updateCategory(category)"></button>
             </ng-template>
-        </p-dialog>
+          </p-dialog>
+          
+          
 
         <p-dialog [(visible)]="deleteCategoryDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="product">Are you sure you want to delete <b>{{product.nom}}</b>?</span>
+                <span *ngIf="category" name="name">Are you sure you want to delete  <b>"{{category.nom}}"</b> ? </span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteCategoryDialog = false"></button>
@@ -90,13 +83,13 @@
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteCategoriesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
                 <span>Are you sure you want to delete selected equipements?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteCategoriesDialog= false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
