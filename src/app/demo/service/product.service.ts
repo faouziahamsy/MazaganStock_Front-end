@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   })
 export class ProductService {
     private apiUrl = 'http://localhost:8084/equipements';
+    private apisUrl = 'http://localhost:8084/equipements/all';
     constructor(private http: HttpClient) { }
     createEquipment(formData: FormData): Observable<any> {
         return this.http.post<any>(this.apiUrl, formData);
@@ -48,5 +49,9 @@ export class ProductService {
             .toPromise()
             .then(res => res.data as Product[])
             .then(data => data);
+    }
+    getTotalEquipments(): Observable<number> {
+      // Make an HTTP GET request to your API endpoint to fetch the total count
+      return this.http.get<number>(this.apisUrl);
     }
 }

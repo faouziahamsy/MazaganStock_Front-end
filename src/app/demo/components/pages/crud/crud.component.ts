@@ -43,7 +43,7 @@ export class CrudComponent implements OnInit {
 
     selectedProducts: Product[] = [];
     
-    
+
 
     submitted: boolean = false;
 
@@ -251,5 +251,6 @@ getCategoryNom(categoryId: number): string {
         return '';
     }
   }
+
   
 }
