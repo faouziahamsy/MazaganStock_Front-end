@@ -6,7 +6,7 @@
                 <ng-template pTemplate="left">
                     <div class="my-2">
                         <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
+                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedArticles()" [disabled]="!selectedArticles || !selectedArticles.length"></button>
                     </div>
                 </ng-template>
 
@@ -16,10 +16,10 @@
                 </ng-template>    
             </p-toolbar>
 
-            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="articles" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedArticles" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Manage Equipements</h5>
+                        <h5 class="m-0">Manage Articles</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
@@ -34,7 +34,7 @@
                         </th>
                         
                         <th pSortableColumn="matricule">Matricule<p-sortIcon field="matricule"></p-sortIcon></th>
-                        <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
+                       
                         <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
                         <th pSortableColumn="dateEntree">Date d'entrée <p-sortIcon field="dateEntree"></p-sortIcon></th>
                         <th pSortableColumn="dateSortie">Date de sortie <p-sortIcon field="dateSortie"></p-sortIcon></th>
@@ -43,63 +43,65 @@
                     </tr>
                 </ng-template>
                 
-             <ng-template pTemplate="body" let-product>
+             <ng-template pTemplate="body" let-article>
         <tr>
         <td>
-            <p-tableCheckbox [value]="product"></p-tableCheckbox>
+            <p-tableCheckbox [value]="article"></p-tableCheckbox>
         </td>
         <td style="width:14%; min-width:8rem;">
             <span class="p-column-title">Matricule</span>
-            {{ product.matricule }}
+            {{ article.matricule }}
         </td>
-        <td style="width:14%; min-width:10rem;">
-            <span class="p-column-title">Category</span>
-            {{ getCategoryNom(product.categoryId )}} <!-- Use the correct attribute name for category -->
-        </td>
+        
         <td style="width:14%; min-width:8rem;">
             <span class="p-column-title">Quantity</span>
-            {{ product.quantity }}
+            {{ article.quantity }}
         </td>
         <td style="width:14%; min-width:10rem;">
             <span class="p-column-title">Date d'entrée</span>
-            {{ product.date_entree }} <!-- Use the correct attribute name for date_entree -->
+            {{ article.date_entree }} <!-- Use the correct attribute name for date_entree -->
         </td>
         <td style="width:14%; min-width:10rem;">
             <span class="p-column-title">Date de sortie</span>
-            {{ product.date_sortie }} <!-- Use the correct attribute name for date_sortie -->
+            {{ article.date_sortie }} <!-- Use the correct attribute name for date_sortie -->
         </td>
         <td style="width:14%; min-width: 10rem;">
             <span class="p-column-title">Etat</span>
-            {{ product.etat }}
+            {{ article.etat }}
         </td>
         <td>
             <div class="flex">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editArticle(article)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteArticle(article)"></button>
             </div>
         </td>
     </tr>
              </ng-template>
             </p-table>
         </div>
-        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Equipment Details" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="articleDialog" [style]="{width: '450px'}" header="Equipment Details" [modal]="true" class="p-fluid">
             <div class="formgrid grid">
                 <div class="field col">
                   <label for="matricule">Matricule</label>
-                  <input type="text" pInputText id="matricule" [(ngModel)]="product.matricule" class="form-control" required>
-                  <div *ngIf="equipmentForm.get('matricule').invalid && (equipmentForm.get('matricule').dirty || equipmentForm.get('matricule').touched)">
+                  <input type="text" pInputText id="matricule" [(ngModel)]="selectedMatricule" class="form-control" required>
+                  <div *ngIf="articleForm.get('matricule').invalid && (articleForm.get('matricule').dirty || articleForm.get('matricule').touched)">
                     <small class="text-danger">Matricule is required.</small>
                   </div>
                 </div>
               </div>  
-            <div class="formgrid grid"> 
-            <div class="field col">
+              <div class="formgrid grid">
+                <div class="field col">
+                    <h5>Date Sortie</h5>
+                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
+                </div>  
+                <div class="formgrid grid">
+                <div class="field col">
                 <span class="p-float-label">
-                  <p-dropdown [options]="categories" [autoDisplayFirst]="false" [(ngModel)]="product.category" optionLabel="nom"></p-dropdown>
-                  <label for="dropdown">Category</label>
+                <p-dropdown [options]="etatValues" [(ngModel)]="selectedEtat">etat</p-dropdown>
                 </span>
-              </div>
-              </div>
+                </div>
+                </div> 
               <div class="form-group">
                 <label for="quantity">Quantity</label>
                 <p-inputNumber
@@ -109,52 +111,40 @@
                   [max]="100"
                   type="number"
                   id="quantity"
-                  [(ngModel)]="product.quantity"   class="form-control" min="0" ></p-inputNumber>
-                <div *ngIf="equipmentForm.get('quantity').invalid && (equipmentForm.get('quantity').dirty || equipmentForm.get('quantity').touched)"   >
+                  [(ngModel)]="quantityValue"   class="form-control" min="0" ></p-inputNumber>
+                <div *ngIf="articleForm.get('quantity').invalid && (articleForm.get('quantity').dirty || articleForm.get('quantity').touched)"   >
                   <small class="text-danger">Quantity must be greater than or equal to 0.</small>
                 </div>
               </div>
-  
-                <div class="formgrid grid">
-                <div class="field col">
-                <span class="p-float-label">
-                <p-dropdown [options]="etatValues" [(ngModel)]="product.etat">etat</p-dropdown>
-                </span>
-                </div>
-                </div>
-                <div class="formgrid grid">
-                    <div class="field col">
-                        <h5>Date Sortie</h5>
-                        <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
-                    </div>
-                    </div>                  
+                               
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button> 
                 <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button> 
-                <button *ngIf="isEditMode" type="submit" pButton pRipple label="Update Equipement" icon="pi pi-check" class="p-button-text" (click)="updateEquipment(product)"></button>         
+                <button *ngIf="isEditMode" type="submit" pButton pRipple label="Update Equipement" icon="pi pi-check" class="p-button-text" (click)="updateEquipment(article)"></button>         
             </ng-template>
         </p-dialog>
-        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteArticleDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="product">Are you sure you want to delete <b>{{product.matricule}}</b>?</span>
+                <span *ngIf="article">Are you sure you want to delete <b>{{article.matricule}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteArticleDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteArticlesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
                 <span>Are you sure you want to delete selected equipements?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteArticlesDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
     </div>
 </div>
+
 

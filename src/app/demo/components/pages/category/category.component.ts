@@ -64,20 +64,7 @@ export class CategoryComponent implements OnInit {
       );
   }
  
-// save category
-//   onSubmit() {
-//     const category = {
-//         "nom":this.valueTest.toString(), 
-//     }
-//     this.categoryService.createCategory(category).subscribe(
-//         (response) => {
-//           console.log('Category added successfully:', response);
-//         },
-//         (error) => {
-//           console.error('Error adding category:', error);
-//         }
-//       );
-//   }
+
   onSubmit() {
     const category = {
       "nom": this.valueTest.toString(),

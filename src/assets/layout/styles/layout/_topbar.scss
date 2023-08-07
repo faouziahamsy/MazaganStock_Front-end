@@ -6,7 +6,7 @@
     top: 0;
     width: 100%;
     padding: 0 2rem;
-    background-color: var(--surface-card);
+    background-color: #a08769;
     transition: left $transitionDuration;
     display: flex;
     align-items: center;
@@ -22,15 +22,19 @@
         border-radius: 12px;
 
         img {
-            height: 16rem;
-            margin-right: .16rem;
-            align-items: center;
+            height: 3.5em;
+            margin-right: 0.8rem;
+            display: block; /* Add this line to make the image a block element */
+            margin: 0 auto; /* Add this line to center the image horizontally */
         }
 
         &:focus {
             @include focused();
         }
     }
+   
+    
+   
 
     .layout-topbar-button {
         display: inline-flex;

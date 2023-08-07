@@ -1,19 +1,29 @@
+import { Category } from "./category";
+
 interface InventoryStatus {
     label: string;
     value: string;
 }
+export enum EtatEnum {
+    INSTOCK = 'INSTOCK',
+    LOWSTOCK = 'LOWSTOCK',
+    OUTOFSTOCK = 'OUTOFSTOCK',
+  }
 export interface Product {
-    id?: string;
+    id?: number;
     code?: string;
     dateEntree?: Date;
     dateSortie?: Date;
     name?: string;
-    description?: string;
+ 
     matricule?: string;
-    //price?: number;
+    
     quantity?: number;
-    inventoryStatus?: InventoryStatus;
-    category?: string;
+    categoryId?:number;
+   
+    category?: Category;
     image?: File;
-   // rating?: number;
+    etat?: EtatEnum;
+    
+  
 }
