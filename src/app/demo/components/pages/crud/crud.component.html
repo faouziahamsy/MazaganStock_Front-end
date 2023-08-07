@@ -16,7 +16,7 @@
                 </ng-template>    
             </p-toolbar>
 
-            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['quantity','matricule','etat']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Manage Equipements</h5>
@@ -26,14 +26,12 @@
                         </span>
                     </div>
                 </ng-template>
-
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
-                        
-                        <th pSortableColumn="matricule">Matricule<p-sortIcon field="matricule"></p-sortIcon></th>
+                        </th>                        
+                        <th pSortableColumn="matricule">Caracteristiques<p-sortIcon field="matricule"></p-sortIcon></th>
                         <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
                         <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
                         <th pSortableColumn="dateEntree">Date d'entrée <p-sortIcon field="dateEntree"></p-sortIcon></th>
@@ -49,7 +47,7 @@
             <p-tableCheckbox [value]="product"></p-tableCheckbox>
         </td>
         <td style="width:14%; min-width:8rem;">
-            <span class="p-column-title">Matricule</span>
+            <span class="p-column-title">Caracteristiques</span>
             {{ product.matricule }}
         </td>
         <td style="width:14%; min-width:10rem;">
@@ -68,10 +66,17 @@
             <span class="p-column-title">Date de sortie</span>
             {{ product.date_sortie }} <!-- Use the correct attribute name for date_sortie -->
         </td>
-        <td style="width:14%; min-width: 10rem;">
-            <span class="p-column-title">Etat</span>
+        <td style="width: 14%; min-width: 10rem;">
+            <span
+              [class]="'product-badge ' + getStatusClass(product.etat)"
+             
+            >
             {{ product.etat }}
-        </td>
+            </span>
+           
+          </td>
+          
+          
         <td>
             <div class="flex">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
@@ -79,27 +84,34 @@
             </div>
         </td>
     </tr>
-             </ng-template>
+            </ng-template>
             </p-table>
         </div>
-        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Equipment Details" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="productDialog" responsiveLayout="scroll" [style]="{width: '450px'}" header="Equipment Details" [modal]="true" class="p-fluid">
             <div class="formgrid grid">
                 <div class="field col">
-                  <label for="matricule">Matricule</label>
+                  <label for="etat">Etat</label>
+                  <span  [class]="'product-badge'" class="p-float-label">
+                    <p-dropdown [options]="etatValues" [(ngModel)]="product.etat" [showClear]="true"></p-dropdown>
+                  </span>
+                </div>
+              </div>
+            <div class="formgrid grid"> 
+                <div class="field col">
+                    <span class="p-float-label"> Category
+                      <p-dropdown [options]="categories" [autoDisplayFirst]="false" [(ngModel)]="product.category" optionLabel="nom"></p-dropdown>   
+                    </span>
+                  </div>
+                  </div>
+            <div class="formgrid grid">
+                <div class="field col">
+                  <label for="matricule">Caracteristiques</label>
                   <input type="text" pInputText id="matricule" [(ngModel)]="product.matricule" class="form-control" required>
                   <div *ngIf="equipmentForm.get('matricule').invalid && (equipmentForm.get('matricule').dirty || equipmentForm.get('matricule').touched)">
-                    <small class="text-danger">Matricule is required.</small>
+                    <small class="text-danger">Caracteristiques is required.</small>
                   </div>
                 </div>
-              </div>  
-            <div class="formgrid grid"> 
-            <div class="field col">
-                <span class="p-float-label">
-                  <p-dropdown [options]="categories" [autoDisplayFirst]="false" [(ngModel)]="product.category" optionLabel="nom"></p-dropdown>
-                  <label for="dropdown">Category</label>
-                </span>
-              </div>
-              </div>
+              </div>               
               <div class="form-group">
                 <label for="quantity">Quantity</label>
                 <p-inputNumber
@@ -114,23 +126,11 @@
                   <small class="text-danger">Quantity must be greater than or equal to 0.</small>
                 </div>
               </div>
-  
-                <div class="formgrid grid">
-                <div class="field col">
-                <span class="p-float-label">
-                <p-dropdown [options]="etatValues" [(ngModel)]="product.etat">etat</p-dropdown>
-                </span>
-                </div>
-                </div>
-                <div class="formgrid grid">
-                    <div class="field col">
-                        <h5>Date Sortie</h5>
-                        <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
-                    </div>
-                    </div>                  
+                
+                               
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button> 
-                <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button> 
+                <button *ngIf="!isEditMode" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button> 
                 <button *ngIf="isEditMode" type="submit" pButton pRipple label="Update Equipement" icon="pi pi-check" class="p-button-text" (click)="updateEquipment(product)"></button>         
             </ng-template>
         </p-dialog>

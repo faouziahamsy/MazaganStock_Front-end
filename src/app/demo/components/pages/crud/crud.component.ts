@@ -61,7 +61,11 @@ export class CrudComponent implements OnInit {
     isEditMode: boolean = false;
   
     
-    constructor(private productService: ProductService, private categoryService: CategoryService, private messageService: MessageService, private fb: FormBuilder) { }
+    constructor(  private productService: ProductService, 
+                  private categoryService: CategoryService, 
+                  private messageService: MessageService, 
+                  private fb: FormBuilder) 
+                  { }
    
   
     ngOnInit() {
@@ -80,7 +84,7 @@ export class CrudComponent implements OnInit {
             dateSortie:[''],
             etat:['']
         });
-        console.log(this.equipmentForm);
+       // console.log(this.equipmentForm);
     }
 
 getCategoryNom(categoryId: number): string {
@@ -109,7 +113,6 @@ getCategoryNom(categoryId: number): string {
         );
     }
 
-    
   onSubmit() {
     const equipmentData: Product = {
       matricule: this.product.matricule.toString(),
@@ -119,8 +122,7 @@ getCategoryNom(categoryId: number): string {
       dateSortie: this.product.dateSortie,
       etat: this.product.etat,
     };
-    console.log(equipmentData);
-   
+   // console.log(equipmentData);
     this.productService.saveEquipment(equipmentData).subscribe(
       (response) => {
         const newProduct: Product = {...response}
@@ -145,19 +147,10 @@ getCategoryNom(categoryId: number): string {
       dateSortie: this.equipmentForm.value.dateSortie,
       etat: this.product.etat,
     };
+    this.productDialog = false;
 
-  console.log(product);
-  
-    // this.productService.updateEquipment(product.id, product).subscribe(
-    //   (response) => {
-    //     console.log('Equipment updated successfully:', response);
-    //     this.loadEquipments(); // Reload the categories after updating
-    //     this.hideDialog();
-    //   },
-    //   (error) => {
-    //     console.error('Error updating equipment:', error);
-    //   }
-    // );
+ // console.log(product);
+
   }
 
     openNew() {
@@ -171,6 +164,7 @@ getCategoryNom(categoryId: number): string {
     }
     editProduct(product: Product) {
         this.product = { ...product };
+
         console.log('====================================');
         console.log(this.product);
         console.log('====================================');
@@ -194,6 +188,8 @@ getCategoryNom(categoryId: number): string {
               // Show an error message or perform error handling
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update equipment', life: 3000 });
           }
+        
+         
       );
   }
 
@@ -237,4 +233,23 @@ getCategoryNom(categoryId: number): string {
         this.productDialog = false;
         this.submitted = false;
     }
+
+    
+    onGlobalFilter(table: Table, event: Event) {
+      table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  getStatusClass(state: EtatEnum): string {
+    switch (state) {
+      case EtatEnum.INSTOCK:
+        return 'status-instock';
+      case EtatEnum.OUTOFSTOCK:
+        return 'status-outofstock';
+      case EtatEnum.LOWSTOCK:
+        return 'status-lowstock';
+      default:
+        return '';
+    }
+  }
+  
 }
