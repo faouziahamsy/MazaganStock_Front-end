@@ -25,3 +25,4 @@ import { DashboardsRoutingModule } from './dashboard-routing.module';
     declarations: [DashboardComponent]
 })
 export class DashboardModule { }
+

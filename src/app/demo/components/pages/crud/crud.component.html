@@ -9,7 +9,6 @@
                         <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
                     </div>
                 </ng-template>
-
                 <ng-template pTemplate="right">
                     <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
                     <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
@@ -39,8 +38,7 @@
                         <th pSortableColumn="etat">Etat <p-sortIcon field="etat"></p-sortIcon></th>
                         <th>ACTION</th>
                     </tr>
-                </ng-template>
-                
+                </ng-template>  
              <ng-template pTemplate="body" let-product>
         <tr>
         <td>
@@ -68,15 +66,10 @@
         </td>
         <td style="width: 14%; min-width: 10rem;">
             <span
-              [class]="'product-badge ' + getStatusClass(product.etat)"
-             
-            >
+              [class]="'product-badge ' + getStatusClass(product.etat)" >
             {{ product.etat }}
-            </span>
-           
-          </td>
-          
-          
+            </span>       
+          </td>        
         <td>
             <div class="flex">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>

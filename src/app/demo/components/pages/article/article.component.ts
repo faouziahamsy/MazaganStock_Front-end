@@ -51,7 +51,9 @@ export class ArticleComponent {
 
   isEditMode: boolean = false;
   
-  constructor(private articleService: ArticleService,  private messageService: MessageService, private fb: FormBuilder) { }
+  constructor(private articleService: ArticleService,  
+              private messageService: MessageService, 
+              private fb: FormBuilder) { }
  
   ngOnInit() {
       this.createForm();
@@ -68,7 +70,7 @@ export class ArticleComponent {
           dateSortie:[''],
           etat:['']
       });
-      console.log(this.articleForm);
+      //console.log(this.articleForm);
   }
 
  
@@ -76,7 +78,7 @@ export class ArticleComponent {
       this.articleService.getArticles().subscribe(
           (data: Article[]) => {
               this.articles = data;
-              console.log("dataaa",data)
+             // console.log("dataaa",data)
           },
           (error) => {
               console.error('Error fetching articles:', error);
@@ -88,16 +90,18 @@ export class ArticleComponent {
 onSubmit() {
   const articleData: Article = {
     matricule: this.selectedMatricule.toString(),
-   
     quantity: this.quantityValue,
     dateEntree: this.articleForm.value.dateEntree,
     dateSortie: this.articleForm.value.dateSortie,
     etat: this.selectedEtat,
   };
-  console.log(articleData);
+//  console.log(articleData);
  
   this.articleService.createArticles(articleData).subscribe(
     (response) => {
+      const newArticle: Article = {...response}
+        // const newProduct: Product = {...response} {id: response.id, name: response.name}
+        this.articles.push(newArticle)
 
       console.log('Article saved successfully!', response);
     },
@@ -105,43 +109,19 @@ onSubmit() {
       
       console.error('Error while saving article:', error);
     }
+    
   );
+  this.articleDialog = false;
 }
 onUpdateArticle() {
-  const article: {
-      id: number;
-      matricule: string;
-      dateSortie: Date;
-      quantity:number;
-      etat:EtatEnum;
-
-  } = {
-      id:this.article.id,
-     
-      matricule: this.selectedMatricule.toString(),
+  const article: Article ={  
+      matricule: this.article.matricule.toString(),
       dateSortie:this.article.dateSortie,
-      quantity:this.article.quantity,
-      etat:this.article.etat
-
+      quantity:this.articleForm.value.quantity,
+      etat:this.article.etat,
   };
-  console.log(this.article.id,this.selectedMatricule);
-  article.id=Number(article.id);
-  article.quantity = Number(article.quantity);
-
-console.log(article);
-
-  this.articleService.updateArticle(article.id, article).subscribe(
-    (response) => {
-      console.log('Article updated successfully:', response);
-      this.loadArticles(); // Reload the categories after updating
-      this.hideDialog();
-    },
-    (error) => {
-      console.error('Error updating article:', error);
-    }
-  );
-}
-
+  this.articleDialog = false;
+ }
   openNew() {
       this.article = {};
       this.submitted = false;
@@ -153,6 +133,9 @@ console.log(article);
   }
   editArticle(article: Article) {
       this.article = { ...article };
+      console.log('====================================');
+      console.log(this.article);
+      console.log('====================================');
       this.articleDialog = true;
       this.isEditMode = true;
   }
@@ -175,12 +158,10 @@ console.log(article);
         }
     );
 }
-
   deleteArticle(article: Article) {
       this.deleteArticleDialog = true;
       this.article = { ...article };
   }
-
   confirmDeleteSelected() {
       this.deleteArticlesDialog = false;
       this.articles = this.articles.filter(val => !this.selectedArticles.includes(val));
@@ -211,7 +192,6 @@ console.log(article);
       console.error('article ID is null or undefined');
     }
   }
-
   hideDialog() {
       this.articleDialog = false;
       this.submitted = false;

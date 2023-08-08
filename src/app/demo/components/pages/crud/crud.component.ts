@@ -43,8 +43,6 @@ export class CrudComponent implements OnInit {
 
     selectedProducts: Product[] = [];
     
-
-
     submitted: boolean = false;
 
     cols: any[] = [];
@@ -148,11 +146,8 @@ getCategoryNom(categoryId: number): string {
       etat: this.product.etat,
     };
     this.productDialog = false;
-
  // console.log(product);
-
   }
-
     openNew() {
         this.product = {};
         this.submitted = false;
@@ -164,7 +159,6 @@ getCategoryNom(categoryId: number): string {
     }
     editProduct(product: Product) {
         this.product = { ...product };
-
         console.log('====================================');
         console.log(this.product);
         console.log('====================================');
@@ -187,12 +181,11 @@ getCategoryNom(categoryId: number): string {
               console.error('Error updating equipment:', error);
               // Show an error message or perform error handling
               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to update equipment', life: 3000 });
-          }
-        
-         
+          }   
       );
   }
 
+  
     deleteProduct(product: Product) {
         this.deleteProductDialog = true;
         this.product = { ...product };

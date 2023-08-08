@@ -9,14 +9,12 @@
                         <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedArticles()" [disabled]="!selectedArticles || !selectedArticles.length"></button>
                     </div>
                 </ng-template>
-
                 <ng-template pTemplate="right">
                     <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
                     <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
                 </ng-template>    
             </p-toolbar>
-
-            <p-table #dt [value]="articles" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedArticles" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="articles" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['matricule','etat','quantity','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedArticles" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Manage Articles</h5>
@@ -26,15 +24,12 @@
                         </span>
                     </div>
                 </ng-template>
-
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
-                        
-                        <th pSortableColumn="matricule">Matricule<p-sortIcon field="matricule"></p-sortIcon></th>
-                       
+                        </th> 
+                        <th pSortableColumn="matricule">Infos<p-sortIcon field="matricule"></p-sortIcon></th>
                         <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
                         <th pSortableColumn="dateEntree">Date d'entrée <p-sortIcon field="dateEntree"></p-sortIcon></th>
                         <th pSortableColumn="dateSortie">Date de modification <p-sortIcon field="dateSortie"></p-sortIcon></th>
@@ -42,14 +37,13 @@
                         <th>ACTION</th>
                     </tr>
                 </ng-template>
-                
              <ng-template pTemplate="body" let-article>
         <tr>
         <td>
             <p-tableCheckbox [value]="article"></p-tableCheckbox>
         </td>
         <td style="width:14%; min-width:8rem;">
-            <span class="p-column-title">Matricule</span>
+            <span class="p-column-title">Infos</span>
             {{ article.matricule }}
         </td>
         
@@ -62,7 +56,7 @@
             {{ article.date_entree }} <!-- Use the correct attribute name for date_entree -->
         </td>
         <td style="width:14%; min-width:10rem;">
-            <span class="p-column-title">Date de sortie</span>
+            <span class="p-column-title">Date de modficiations </span>
             {{ article.date_sortie }} <!-- Use the correct attribute name for date_sortie -->
         </td>
         <td style="width:14%; min-width: 10rem;">
@@ -82,19 +76,13 @@
         <p-dialog [(visible)]="articleDialog" [style]="{width: '450px'}" header="Equipment Details" [modal]="true" class="p-fluid">
             <div class="formgrid grid">
                 <div class="field col">
-                  <label for="matricule">Matricule</label>
+                  <label for="matricule">Infos</label>
                   <input type="text" pInputText id="matricule" [(ngModel)]="selectedMatricule" class="form-control" required>
                   <div *ngIf="articleForm.get('matricule').invalid && (articleForm.get('matricule').dirty || articleForm.get('matricule').touched)">
-                    <small class="text-danger">Matricule is required.</small>
+                    <small class="text-danger">Infos is required.</small>
                   </div>
                 </div>
               </div>  
-              <div class="formgrid grid">
-                <div class="field col">
-                    <h5>Date Sortie</h5>
-                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
-                </div>
-                </div>  
                 <div class="formgrid grid">
                 <div class="field col">
                 <span class="p-float-label">
@@ -115,12 +103,11 @@
                 <div *ngIf="articleForm.get('quantity').invalid && (articleForm.get('quantity').dirty || articleForm.get('quantity').touched)"   >
                   <small class="text-danger">Quantity must be greater than or equal to 0.</small>
                 </div>
-              </div>
-                               
+              </div>       
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button> 
-                <button type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button> 
-                <button *ngIf="isEditMode" type="submit" pButton pRipple label="Update Equipement" icon="pi pi-check" class="p-button-text" (click)="updateEquipment(article)"></button>         
+                <button *ngIf="!isEditMode" type="submit" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"></button> 
+                <button *ngIf="isEditMode" type="submit" pButton pRipple label="Update Article" icon="pi pi-check" class="p-button-text" (click)="updateArticle(article)"></button>         
             </ng-template>
         </p-dialog>
         <p-dialog [(visible)]="deleteArticleDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
@@ -137,7 +124,7 @@
         <p-dialog [(visible)]="deleteArticlesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Are you sure you want to delete selected equipements?</span>
+                <span>Are you sure you want to delete selected articles?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteArticlesDialog = false"></button>
