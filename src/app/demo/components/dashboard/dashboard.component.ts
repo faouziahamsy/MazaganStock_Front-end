@@ -18,7 +18,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     chartOptions: any;
     totalEquipments: number;
-
+    totalArticles: number;
+    totalCategories: number;
     subscription!: Subscription;
 
     constructor(private productService: ProductService, public layoutService: LayoutService) {
@@ -29,6 +30,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.fetchTotalEquipments();
+        this.fetchTotalArticles();
+        this.fetchTotalCategories();
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
 
@@ -114,4 +117,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  fetchTotalArticles() {
+    this.productService.getTotalArticles().subscribe(
+      (data: number) => {
+        this.totalArticles= data;
+      },
+      (error) => {
+        console.error('Error fetching total articles count:', error);
+      }
+    );
+  }
+  fetchTotalCategories() {
+    this.productService.getTotalCategories().subscribe(
+      (data: number) => {
+        this.totalCategories = data;
+      },
+      (error) => {
+        console.error('Error fetching total equipment count:', error);
+      }
+    );
+  }
+
+
 }

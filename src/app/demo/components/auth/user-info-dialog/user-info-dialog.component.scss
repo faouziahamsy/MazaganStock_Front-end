@@ -1,0 +1,12 @@
+/* dialog.component.css */
+
+
+.card {
+    position: absolute;
+    top: calc(100% + 10px); /* Adjust the value as needed */
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000; /* Adjust the value as needed */
+  }

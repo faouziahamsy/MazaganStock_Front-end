@@ -18,10 +18,10 @@
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Articles</span>
-                        <div class="text-900 font-medium text-xl">TOTAL : </div>
+                        <div class="text-900 font-medium text-xl">TOTAL : {{totalArticles}}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                        <i class="pi pi-shopping-cart text-orange-500 text-xl"></i>
                     </div>
                 </div>
                 <span class="text-green-500 font-medium"> </span>
@@ -33,7 +33,7 @@
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Categories</span>
-                        <div class="text-900 font-medium text-xl">TOTAL : </div>
+                        <div class="text-900 font-medium text-xl">TOTAL : {{totalCategories}}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
                         <i class="pi pi-inbox text-cyan-500 text-xl"></i>
@@ -79,7 +79,7 @@
                         </div>
                         <span class="text-900 line-height-3">Admin IT 
                     <span class="text-700"> added some new equipements <span class="text-blue-500"></span></span>
-                </span>
+                        </span>
                     </li>
                     <li class="flex align-items-center py-2">
                         <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
@@ -104,8 +104,18 @@
                         </div>
                         <span class="text-900 line-height-3">Jane Davis<span class="text-700"> has posted a new questions about your product.</span></span>
                     </li>
+                    <li>
+                        <div>
+                            <i>
+                                <span>
+                                    sss
+                                </span>
+                            </i>
+                        </div>
+                    </li>
                 </ul>
             </div>
     </div>
 </div>
+
 

@@ -46,7 +46,6 @@
             <span class="p-column-title">Infos</span>
             {{ article.matricule }}
         </td>
-        
         <td style="width:14%; min-width:8rem;">
             <span class="p-column-title">Quantity</span>
             {{ article.quantity }}
@@ -119,8 +118,7 @@
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteArticleDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
             </ng-template>
-        </p-dialog>
-
+        </p-dialog> 
         <p-dialog [(visible)]="deleteArticlesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
@@ -131,6 +129,7 @@
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
+      
     </div>
 </div>
 

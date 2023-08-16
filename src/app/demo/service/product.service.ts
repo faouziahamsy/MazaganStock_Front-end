@@ -8,7 +8,9 @@ import { Observable } from 'rxjs';
   })
 export class ProductService {
     private apiUrl = 'http://localhost:8084/equipements';
-    private apisUrl = 'http://localhost:8084/equipements/all';
+    private apiEqUrl = 'http://localhost:8084/equipements/all';
+    private apiArUrl = 'http://localhost:8084/articles/all';
+    private apiCaUrl = 'http://localhost:8084/categories/all';
     constructor(private http: HttpClient) { }
     createEquipment(formData: FormData): Observable<any> {
         return this.http.post<any>(this.apiUrl, formData);
@@ -52,6 +54,15 @@ export class ProductService {
     }
     getTotalEquipments(): Observable<number> {
       // Make an HTTP GET request to your API endpoint to fetch the total count
-      return this.http.get<number>(this.apisUrl);
+      return this.http.get<number>(this.apiEqUrl);
+    }
+
+    getTotalArticles(): Observable<number> {
+      // Make an HTTP GET request to your API endpoint to fetch the total count
+      return this.http.get<number>(this.apiArUrl);
+    }
+    getTotalCategories(): Observable<number> {
+      // Make an HTTP GET request to your API endpoint to fetch the total count
+      return this.http.get<number>(this.apiCaUrl);
     }
 }
