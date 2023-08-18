@@ -37,7 +37,7 @@ export class LoginComponent {
                 this.userService.setCurrentUser(response);
              // const newUser: User = {...response};
               console.log('login successfully!', response);
-              this.router.navigate(['/']);
+              this.router.navigate(['/dashboard']);
              
             },
             (error) => {

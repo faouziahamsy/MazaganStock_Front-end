@@ -1495,6 +1495,7 @@ p-password.ng-invalid.ng-dirty > .p-password > .p-inputtext {
 }
 
 .p-password-panel {
+  display: none !important;
   padding: 1rem;
   background: #1e1e1e;
   color: rgba(255, 255, 255, 0.87);
@@ -1503,8 +1504,10 @@ p-password.ng-invalid.ng-dirty > .p-password > .p-inputtext {
   border-radius: 3px;
 }
 .p-password-panel .p-password-meter {
+  display: none !important;
   margin-bottom: 0.5rem;
   background: #383838;
+  
 }
 .p-password-panel .p-password-meter .p-password-strength.weak {
   background: #F48FB1;

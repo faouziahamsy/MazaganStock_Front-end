@@ -49,8 +49,6 @@ export class RegisterComponent implements OnInit {
    this.loadRoles();
 }
 
-
-
 createForm() {
   this.userForm = this.fb.group({
     matricule: ['', Validators.required],
@@ -100,7 +98,6 @@ onSubmit() {
   this.userService.createUser(userData).subscribe(
    
     (response) => {
-      
      // const newUser: User = {...response};
       console.log('User registered successfully!', response);
     },
@@ -108,31 +105,5 @@ onSubmit() {
       console.error('Error while registering user:', error);
     }
   );
-
 }
-
-
-
-
-  registerUser() {
-
-    if (this.user.password !== this.confirmPassword) {
-      // Handle password mismatch
-      return;
-    }
-
-    this.userService.createUser(this.user)
-      .subscribe(
-        response => {
-          // Handle successful registration
-        },
-        error => {
-          // Handle registration error
-        }
-      );
-  }
- 
-
-
-
 }

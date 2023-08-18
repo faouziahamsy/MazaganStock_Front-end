@@ -4,6 +4,8 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { ChartOptions , ChartDataset} from 'chart.js';
+import { ArticleService } from '../../service/article.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -11,27 +13,41 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 export class DashboardComponent implements OnInit, OnDestroy {
 
     items!: MenuItem[];
+   
+
+  barData: { labels: string[], datasets: ChartDataset[] };
+  barOptions: ChartOptions;
 
     products!: Product[];
 
     chartData: any;
+   
 
     chartOptions: any;
+   
     totalEquipments: number;
+    chartEquipments: number;
+    nEquipments: number;
+    cEquipments: number;
     totalArticles: number;
+    chartArticles: number;
+    nArticles:number;
+    cArticles:number;
     totalCategories: number;
     subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    constructor(private productService: ProductService, public layoutService: LayoutService, private articleService: ArticleService) {
         this.subscription = this.layoutService.configUpdate$.subscribe(() => {
             this.initChart();
         });
     }
+ 
 
     ngOnInit() {
         this.fetchTotalEquipments();
         this.fetchTotalArticles();
         this.fetchTotalCategories();
+        this.calculateStatistics();
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
 
@@ -46,65 +62,62 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-        this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: .4
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
-                    borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
-        };
-
-        this.chartOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
+     
+    }
+    calculateStatistics() {
+      this.productService.getEquipments().subscribe(equipments => {
+        // Filter equipments with 'lowstock' state
+        const inStockEquipments = equipments.filter(product => product.etat === 'INSTOCK');
+        const lowStockEquipments = equipments.filter(product => product.etat === 'LOWSTOCK');
+        const outOfStockEquipments = equipments.filter(product => product.etat === 'OUTOFSTOCK');
+        this.nEquipments= inStockEquipments.length;
+        this.chartEquipments = lowStockEquipments.length;
+        this.cEquipments= outOfStockEquipments.length;
+        
+        this.populateBarChartData();
+        // Update bar chart data
+        this.barData.datasets[0].data = lowStockEquipments.map(product => product.quantity);
+        
+      });
+    
+      this.articleService.getArticles().subscribe(articles => {
+        const inStockArticles = articles.filter(article => article.etat === 'INSTOCK');
+        const lowStockArticles = articles.filter(article => article.etat === 'LOWSTOCK');
+        const outOfStockArticles = articles.filter(article => article.etat === 'OUTOFSTOCK');
+        this.nArticles= inStockArticles.length;
+        this.chartArticles = lowStockArticles.length;
+        this.cArticles=outOfStockArticles.length;
+        this.totalArticles = articles.length;
+        this.populateBarChartData();
+      });
+    }
+    
+  
+    populateBarChartData() {
+      if (this.chartEquipments !== 0 && this.nEquipments !== 0 &&this.cEquipments !==0
+         &&   this.nArticles !== 0 && this.chartArticles !== 0 && this.cArticles !== 0) {
+        this.barData = {
+          labels: ['Equipments INSTOCK', 'Equipments LOWSTOCK', 'Equipments OUTOFSTOCK',  'Articles INSTOCK',
+          'Articles LOWSTOCK',
+          'Articles OUTOFSTOCK'],
+          datasets: [
+            {
+              label: '',
+              backgroundColor: ['blue', 'orange', 'red','green',
+              'purple',
+              'brown'],
+              borderColor: ['blue', 'orange', 'red','green',
+              'purple',
+              'brown'],
+              data: [this.nEquipments, this.chartEquipments,  this.cEquipments,this.nArticles,
+                this.chartArticles,
+                this.cArticles]
             }
+          ]
         };
+      }
     }
-
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
+  
 
     
   fetchTotalEquipments() {
@@ -140,4 +153,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
 
+  ngOnDestroy() {
+   
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+  }
+  }
 }
+
+

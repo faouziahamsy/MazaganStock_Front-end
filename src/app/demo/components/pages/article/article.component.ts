@@ -196,6 +196,19 @@ onUpdateArticle() {
       this.articleDialog = false;
       this.submitted = false;
   }
+
+  getStatusClass(state: EtatEnum): string {
+    switch (state) {
+      case EtatEnum.INSTOCK:
+        return 'status-instock';
+      case EtatEnum.OUTOFSTOCK:
+        return 'status-outofstock';
+      case EtatEnum.LOWSTOCK:
+        return 'status-lowstock';
+      default:
+        return '';
+    }
+  }
 }
 
 

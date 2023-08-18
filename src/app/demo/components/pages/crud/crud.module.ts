@@ -18,6 +18,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
+import { NgxCsvParserModule } from 'ngx-csv-parser';
+
 
 @NgModule({
     imports: [
@@ -39,6 +41,7 @@ import { CalendarModule } from 'primeng/calendar';
         InputNumberModule,
         DialogModule,
         CalendarModule,
+        NgxCsvParserModule,
     ],
     declarations: [CrudComponent]
 })

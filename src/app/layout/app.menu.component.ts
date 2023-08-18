@@ -1,23 +1,27 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
+import { User } from '../demo/api/user';
+import { UserService } from '../demo/service/user.service';
 
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
+    currentUser: User| null;
 
     model: any[] = [];
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService, private userService: UserService) { }
 
     ngOnInit() {
+        this.currentUser = this.userService.getCurrentUser();
         this.model = [
             {
                 label: 'Home',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/dashboard'] }
                 ]
             },
             // {
@@ -60,9 +64,38 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-fw pi-briefcase',
                 items: [     
                     {
-                        label: 'Auth',
-                        icon: 'pi pi-fw pi-user',
+                        label: 'Equipements',
+                        icon: 'pi pi-fw pi-pencil',
+                        routerLink: ['/pages/crud']
+                    },
+                    {
+                        label: 'Articles',
+                        icon: 'pi pi-server',
+                        routerLink: ['/pages/article']
+                    },
+                    {
+                        label: 'Category',
+                        icon: 'pi pi-server',
+                        routerLink: ['/pages/category']
+                    },
+                    {
+                        label: 'Landing',
+                        icon: 'pi pi-fw pi-globe',
+                        routerLink: ['/landing']
+                    }
+                ],
+
+            },
+            {
+                label: 'settings',
+                icon: 'pi pi-fw pi-briefcase',
+                
+                items: [     
+                    {
+                        label: 'auth',
+                        icon: 'pi pi-cog',
                         items: [
+                
                             {
                                 label: 'Login',
                                 icon: 'pi pi-fw pi-sign-in',
@@ -83,46 +116,16 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-lock',
                                 routerLink: ['/auth/access']
                             }
-                        ]
-                    },
-                    {
-                        label: 'Equipements',
-                        icon: 'pi pi-fw pi-pencil',
-                        routerLink: ['/pages/crud']
-                    },
-                    {
-                        label: 'Articles',
-                        icon: 'pi pi-server',
-                        routerLink: ['/pages/article']
-                    },
-                    {
-                        label: 'Category',
-                        icon: 'pi pi-server',
-                        routerLink: ['/pages/category']
-                    },
-                    
-                    // {
-                    //     label: 'Timeline',
-                    //     icon: 'pi pi-fw pi-calendar',
-                    //     routerLink: ['/pages/timeline']
-                    // },
-                    {
-                        label: 'Not Found',
-                        icon: 'pi pi-fw pi-exclamation-circle',
-                        routerLink: ['/notfound']
-                    },
-                    {
-                        label: 'Landing',
-                        icon: 'pi pi-fw pi-globe',
-                        routerLink: ['/landing']
-                    }
-                    // {
-                    //     label: 'Empty',
-                    //     icon: 'pi pi-fw pi-circle-off',
-                    //     routerLink: ['/pages/empty']
-                    // },
-                ]
+                        ]    
+           
             },
+            {
+                label: 'Log out',
+                icon: 'pi pi-fw pi-sign-in',
+                routerLink: ['/auth/login']
+            },
+        ]
+        }
             // {
             //     label: 'Hierarchy',
             //     items: [
